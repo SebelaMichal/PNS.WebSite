@@ -5,5 +5,13 @@ namespace ProgramatoriNaStream.WebSite.Data
 {
     public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : IdentityDbContext<ApplicationUser>(options)
     {
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            base.OnModelCreating(builder);
+
+            builder.Entity<Post>().HasKey(x => x.Id);
+        }
+
+        public virtual DbSet<Post> Posts { get; set; }
     }
 }
