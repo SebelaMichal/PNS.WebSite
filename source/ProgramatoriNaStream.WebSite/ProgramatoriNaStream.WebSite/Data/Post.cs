@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 namespace ProgramatoriNaStream.WebSite.Data
 {
     // Add profile data for application users by adding properties to the ApplicationUser class
-    public class Post : IdentityUser
+    public class Post
     {
         public int Id { get; set; }
 
@@ -18,5 +18,4 @@ namespace ProgramatoriNaStream.WebSite.Data
 
         public ApplicationUser UserCreated { get; set; }
     }
-
 }
