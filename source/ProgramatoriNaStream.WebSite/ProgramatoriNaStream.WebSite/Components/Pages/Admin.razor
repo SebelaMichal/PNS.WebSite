@@ -1,13 +1,49 @@
 ﻿@page "/admin"
+@inject AuthenticationStateProvider AuthenticationStateProvider
+@inject ApplicationDbContext dbContext
 
 @using Microsoft.AspNetCore.Authorization
 
 @attribute [Authorize]
 
-<PageTitle>Auth</PageTitle>
+<PageTitle>Vytvoření příspěvku</PageTitle>
 
-<h1>You are authenticated</h1>
 
-<AuthorizeView>
-    Hello @context.User.Identity?.Name!
-</AuthorizeView>
+<EditForm Model="Post" OnSubmit="SendData" FormName="PostCreate">
+    <div>
+        <label>
+            Název:
+            <InputText @bind-Value="Post.Name" />
+        </label>
+    </div>
+    <div>
+        <label>
+            Obsah:
+            <InputText @bind-Value="Post.BodyHtml" />
+        </label>
+    </div>
+    <div>
+        <button type="submit">Submit</button>
+    </div>
+</EditForm>
+
+@code
+{
+    [SupplyParameterFromForm]
+    private Post Post { get; set; } = new Post();
+
+    private async Task SendData()
+    {
+        var authState = await AuthenticationStateProvider
+            .GetAuthenticationStateAsync();
+        var user = authState.User;
+        var userId = user.FindFirst(u => u.Type.Contains("nameidentifier"))?.Value;
+
+        Post.DateCreated = DateTime.Now;
+        Post.UserCreated = (await dbContext.Users.FindAsync(userId))!;   //todo: odstranit dbContext
+        Post.YoutubeVideoLink = "";
+
+        dbContext.Posts.Add(Post);
+        await dbContext.SaveChangesAsync();
+    }
+}

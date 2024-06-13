@@ -17,5 +17,7 @@ namespace ProgramatoriNaStream.WebSite.Data
         public string YoutubeVideoLink { get; set; }
 
         public ApplicationUser UserCreated { get; set; }
+
+        //public Guid UserCreatedId { get; set; }
     }
 }

@@ -10,6 +10,7 @@ namespace ProgramatoriNaStream.WebSite.Data
             base.OnModelCreating(builder);
 
             builder.Entity<Post>().HasKey(x => x.Id);
+            //builder.Entity<Post>().has
         }
 
         public virtual DbSet<Post> Posts { get; set; }
